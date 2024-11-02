@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split, cross_validate, cross_val_
 from sklearn.metrics import accuracy_score, f1_score, make_scorer, recall_score
 import pandas as pd
 import matplotlib.pyplot as plt
+import time
 
 
 df = pd.read_csv('data_heart.csv')
@@ -36,15 +37,17 @@ f1 = f1_score(y_test, y_pred)
 # Logistic Regression Classifier with cross validation
 #################################
 
+start_time = time.time()
 cv = KFold(n_splits=50, shuffle=True, random_state=42)
-
 # Compute cross-validated accuracy scores
 scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv)
 accuracy = cross_val_score(model, X, y, scoring='accuracy', cv=cv)
 f1 = cross_val_score(model, X, y, scoring='f1', cv=cv)
 precision = cross_val_score(model, X, y, scoring='precision', cv=cv)
 recall = cross_val_score(model, X, y, scoring='recall', cv=cv)
+end_time = time.time()
 
+print("Time taken:", end_time - start_time)
 print("Mean Accuracy:", accuracy.mean())
 print("Mean F1 score:", f1.mean())
 print("Mean Precision score:", precision.mean())
